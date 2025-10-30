@@ -1,0 +1,43 @@
+@theme {
+	/* Primary Colors */
+	--color-primary: rgba(53, 205, 255, 1);
+
+	/* Secondary Colors */
+	--color-secondary: rgba(0, 111, 238, 1);
+
+	/* Success Colors */
+	--color-success: rgba(56, 175, 117, 1);
+
+	/* Info Colors */
+	--color-info: rgba(0, 111, 238, 1);
+
+	/* Warning Colors */
+	--color-warning: rgba(255, 181, 34, 1);
+
+	/* Danger Colors */
+	--color-danger: rgba(231, 90, 91, 1);
+
+	--color-root: rgba(10, 24, 42, 1);
+
+	/* Light Colors */
+	--color-light: #fafafa;
+	--color-light-light: #ffffff;
+	--color-light-dark: #c7c7c7;
+	--color-light-transparent: rgba(250, 250, 250, 0.75);
+
+	/* Dark Colors */
+	--color-dark: #212121;
+	--color-dark-light: #484848;
+	--color-dark-dark: #000000;
+	--color-dark-transparent: rgba(33, 33, 33, 0.75);
+
+	--color-description: rgba(255, 255, 255, 0.45);
+
+	--color-sell: #9a4347;
+	--color-sell-disabled: #422631;
+
+	--color-buy: #297a58;
+	--color-buy-disabled: #163c38;
+
+	--color-favorite: rgba(219, 209, 70, 1);
+}

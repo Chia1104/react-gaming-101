@@ -1,0 +1,120 @@
+{
+	"meta": {
+		"title": "React Gaming 101",
+		"description": "透過 react 來建立一個遊戲"
+	},
+	"theme": {
+		"label": "主題",
+		"system": "系統",
+		"light": "亮色",
+		"dark": "暗色"
+	},
+	"locale": {
+		"label": "語言",
+		"zh-TW": "繁體中文",
+		"zh-CN": "简体中文",
+		"en-US": "English"
+	},
+	"action": {
+		"confirm": "確認",
+		"cancel": "取消",
+		"connect-wallet": "連接錢包",
+		"reset": "重置",
+		"active": "應用",
+		"clear": "清除",
+		"back": "返回",
+		"back-to-previous": "返回上一頁",
+		"back-to-home": "返回首頁",
+		"skip": "略過",
+		"experience": "立即體驗",
+		"copy": "複製",
+		"copied": "已複製",
+		"retry": "重試",
+		"send": "發送",
+		"pause": "暫停",
+		"go-to": "前往",
+		"login": "登入",
+		"update": "更新",
+		"edit": "編輯",
+		"publish": "發布",
+		"save-and-back": "保存並返回",
+		"play": "玩遊戲"
+	},
+	"validation": {
+		"required": "此欄位為必填",
+		"invalid-type": "無效的類型",
+		"pattern": {
+			"email": "無效的電子郵件格式",
+			"url": "無效的網址格式",
+			"wallet-address": "無效的錢包地址",
+			"number": "無效的數字格式",
+			"more-than-0": "必須大於 0",
+			"more-than-min": "必須大於{min}"
+		}
+	},
+	"utils": {
+		"more-then-item": "大於 {item}",
+		"enter": "請輸入",
+		"no-data": "無資料",
+		"no-result": "找不到任何結果",
+		"searching": "搜尋中...",
+		"unable-to-load": {
+			"title": "無法載入資料",
+			"description": "請稍後再試一次，或檢查網路連線。"
+		},
+		"too-many-requests": {
+			"default": "你嘗試的次數過多，請稍後再試一次",
+			"title": "嘗試次數過多",
+			"description": "請稍後再試一次",
+			"with-limit": "你已嘗試 {limit} 次，請稍後再試一次"
+		},
+		"leave-site": "你即將離開我們的網站，前往",
+		"limit-characters": "{current}/{limit} 字元",
+		"default": "預設",
+		"all": "全部",
+		"view-all": "查看全部",
+		"unsaved-changes": {
+			"title": "未保存的更改",
+			"description": "離開將丟棄您的最近調整。",
+			"discard": "丟棄更改"
+		},
+		"delete": {
+			"title": "刪除",
+			"description": "你確定要刪除這個項目嗎？"
+		}
+	},
+	"commons": {
+		"error": {
+			"title": "發生錯誤",
+			"description": "請稍後再試一次",
+			"retry": "重試"
+		},
+		"not-found": {
+			"title": "找不到頁面",
+			"description": "該頁面可能已被刪除或不存在"
+		},
+		"forbidden": {
+			"title": "禁止訪問",
+			"description": "你無權訪問此頁面"
+		}
+	},
+	"routes": {
+		"tic-tac-toe": {
+			"title": "井字遊戲",
+			"description": "井字遊戲是一種簡單的棋盤遊戲，玩家需要在一個方形的棋盤上，先連成一條線的玩家獲勝！"
+		},
+		"roulette": {
+			"title": "轉盤",
+			"description": "轉盤是一種簡單的遊戲，玩家需要轉動轉盤，當轉盤停止時，指針指向的獎勵將會獲得！"
+		}
+	},
+	"tic-tac-toe": {
+		"description": "井字遊戲是一種簡單的棋盤遊戲，玩家需要在一個 {size}x{size} 的棋盤上，先連成一條線的玩家獲勝！",
+		"set-size": "設定棋盤大小",
+		"winner": "玩家 {winner} 獲勝！",
+		"draw": "平局！",
+		"current-player": "當前玩家：{player}",
+		"reset": "重新開始",
+		"size-description": "請輸入 3 到 10 之間的數字"
+	}
+}
