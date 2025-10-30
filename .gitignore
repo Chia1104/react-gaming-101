@@ -37,10 +37,12 @@ package-lock.json
 .idea
 
 .next/*
-!.next/types/
-.next/types/*
-!.next/types/routes.d.ts
-!.next/types/link.d.ts
+!.next/dev/
+.next/dev/*
+!.next/dev/types/
+.next/dev/types/*
+!.next/dev/types/routes.d.ts
+!.next/dev/types/link.d.ts
 
 .cache
 
