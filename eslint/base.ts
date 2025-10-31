@@ -1,8 +1,6 @@
-import { includeIgnoreFile } from '@eslint/compat';
 import eslint from '@eslint/js';
 import importPlugin from 'eslint-plugin-import';
 import { defineConfig } from 'eslint/config';
-import * as path from 'node:path';
 import tseslint from 'typescript-eslint';
 
 /**
@@ -16,7 +14,7 @@ export const restrictEnvAccess = defineConfig({
 			{
 				object: 'process',
 				property: 'env',
-				message: "Use `import { env } from '~/env'` instead to ensure validated types.",
+				message: "Use `import { env } from '@/libs/env'` instead to ensure validated types.",
 			},
 		],
 		'no-restricted-imports': [
@@ -24,14 +22,13 @@ export const restrictEnvAccess = defineConfig({
 			{
 				name: 'process',
 				importNames: ['env'],
-				message: "Use `import { env } from '~/env'` instead to ensure validated types.",
+				message: "Use `import { env } from '@/libs/env'` instead to ensure validated types.",
 			},
 		],
 	},
 });
 
 export const baseConfig = defineConfig(
-	includeIgnoreFile(path.join(import.meta.dirname, '../../.gitignore')),
 	{
 		// Globally ignored files
 		ignores: ['**/*.config.*', 'dist/**', 'build/**', 'node_modules/**'],

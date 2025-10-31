@@ -1,5 +1,3 @@
-import { ViewTransition } from 'react';
-
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 
@@ -14,9 +12,9 @@ export async function generateMetadata(): Promise<Metadata> {
 
 const Page = () => {
 	return (
-		<ViewTransition>
+		<div className="inline-block">
 			<TicTacToe />
-		</ViewTransition>
+		</div>
 	);
 };
 

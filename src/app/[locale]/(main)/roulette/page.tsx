@@ -1,7 +1,7 @@
-import { ViewTransition } from 'react';
-
 import type { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
+
+import { Roulette } from '@/containers/roulette';
 
 export async function generateMetadata(): Promise<Metadata> {
 	const t = await getTranslations('routes.roulette');
@@ -12,9 +12,9 @@ export async function generateMetadata(): Promise<Metadata> {
 
 const Page = () => {
 	return (
-		<ViewTransition>
-			<div>Roulette</div>
-		</ViewTransition>
+		<div className="inline-block">
+			<Roulette />
+		</div>
 	);
 };
 

@@ -45,7 +45,7 @@ const Layout = async ({ children, params }: { children: ReactNode; params: PageP
 		<AppLayout
 			locale={locale}
 			bodyProps={{
-				className: 'min-h-screen antialiased',
+				className: 'antialiased',
 			}}
 		>
 			<AppProviders messages={messages} timeZone={timeZone} locale={locale}>

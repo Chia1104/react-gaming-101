@@ -1,18 +1,34 @@
 'use client';
 
+import { ViewTransition } from 'react';
+
 import { useTranslations } from 'next-intl';
+import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useSelectedLayoutSegments } from 'next/navigation';
 
 import type { Game } from '@/enums/game.enum';
 import { cn } from '@/libs/utils/cn';
 
-import { AnimatedThemeToggler } from '../ui/animated-theme-toggler';
+import { Skeleton } from '../ui/skeleton';
+
+const AnimatedThemeToggler = dynamic(
+	() => import('../ui/animated-theme-toggler').then(mod => mod.AnimatedThemeToggler),
+	{
+		ssr: false,
+		loading: () => (
+			<ViewTransition>
+				<Skeleton className="size-9 rounded-full" />
+			</ViewTransition>
+		),
+	},
+);
 
 export const NavBar = ({ className }: { className?: string }) => {
 	const t = useTranslations();
 	const segments = useSelectedLayoutSegments();
-	const game = segments?.[1] as Game;
+	const game = segments?.[0] as Game;
+	console.log(game);
 
 	return (
 		<nav
@@ -21,7 +37,7 @@ export const NavBar = ({ className }: { className?: string }) => {
 				className,
 			)}
 		>
-			<div>
+			<div className="flex items-center justify-center gap-2 text-muted-foreground">
 				<Link href="/">{t(`meta.title`)}</Link>
 			</div>
 			<ul>
