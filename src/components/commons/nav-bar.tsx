@@ -27,8 +27,7 @@ const AnimatedThemeToggler = dynamic(
 export const NavBar = ({ className }: { className?: string }) => {
 	const t = useTranslations();
 	const segments = useSelectedLayoutSegments();
-	const game = segments?.[0] as Game;
-	console.log(game);
+	const game = segments?.[0] as Game | undefined;
 
 	return (
 		<nav
@@ -39,6 +38,7 @@ export const NavBar = ({ className }: { className?: string }) => {
 		>
 			<div className="flex items-center justify-center gap-2 text-muted-foreground">
 				<Link href="/">{t(`meta.title`)}</Link>
+				{game && <Link href={`/${game}`}>/ {t(`routes.${game}.title`)}</Link>}
 			</div>
 			<ul>
 				<AnimatedThemeToggler className="rounded-full" />
