@@ -1,18 +1,18 @@
-// @ts-nocheck
-import nextPlugin from "@next/eslint-plugin-next";
-import { defineConfig } from "eslint/config";
+import nextPlugin from '@next/eslint-plugin-next';
+import { defineConfig } from 'eslint/config';
 
 const nextjsConfig = defineConfig({
-  files: ["**/*.ts", "**/*.tsx"],
-  plugins: {
-    "@next/next": nextPlugin,
-  },
-  rules: {
-    ...nextPlugin.configs.recommended.rules,
-    ...nextPlugin.configs["core-web-vitals"].rules,
-    // TypeError: context.getAncestors is not a function
-    "@next/next/no-duplicate-head": "off",
-  },
+	files: ['**/*.ts', '**/*.tsx'],
+	plugins: {
+		// @ts-expect-error - import plugin is not typed
+		'@next/next': nextPlugin,
+	},
+	rules: {
+		...nextPlugin.configs.recommended.rules,
+		...nextPlugin.configs['core-web-vitals'].rules,
+		// TypeError: context.getAncestors is not a function
+		'@next/next/no-duplicate-head': 'off',
+	},
 });
 
 export default nextjsConfig;

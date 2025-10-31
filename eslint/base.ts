@@ -1,6 +1,8 @@
+import { includeIgnoreFile } from '@eslint/compat';
 import eslint from '@eslint/js';
 import importPlugin from 'eslint-plugin-import';
 import { defineConfig } from 'eslint/config';
+import path from 'node:path';
 import tseslint from 'typescript-eslint';
 
 /**
@@ -29,6 +31,7 @@ export const restrictEnvAccess = defineConfig({
 });
 
 export const baseConfig = defineConfig(
+	includeIgnoreFile(path.join(import.meta.dirname, '../.gitignore') as string),
 	{
 		// Globally ignored files
 		ignores: ['**/*.config.*', 'dist/**', 'build/**', 'node_modules/**'],
@@ -36,7 +39,7 @@ export const baseConfig = defineConfig(
 	{
 		files: ['**/*.js', '**/*.ts', '**/*.tsx'],
 		plugins: {
-			// @ts-expect-error
+			// @ts-expect-error - import plugin is not typed
 			import: importPlugin,
 		},
 		extends: [
@@ -67,8 +70,12 @@ export const baseConfig = defineConfig(
 		linterOptions: { reportUnusedDisableDirectives: true },
 		languageOptions: {
 			parserOptions: {
-				projectService: true,
+				projectService: {
+					allowDefaultProject: ['base.ts', 'nextjs.ts', 'react.ts'],
+					defaultProject: '../tsconfig.json',
+				},
 				tsconfigRootDir: import.meta.dirname,
+				sourceType: 'module',
 			},
 		},
 	},
