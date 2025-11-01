@@ -7,6 +7,7 @@ import { cn } from '@/libs/utils/cn';
 import dayjs from '@/libs/utils/dayjs';
 
 import { Button } from '../ui/button';
+import { TextPath } from '../ui/text-path';
 import { LocaleSelector } from './locale-selector';
 
 export const Footer = ({ className }: { className?: string }) => {
@@ -22,11 +23,12 @@ export const Footer = ({ className }: { className?: string }) => {
 		>
 			<div className="container mx-auto max-w-6xl">
 				<div className="flex flex-col items-center justify-center gap-6">
-					<h1 className="text-4xl md:text-5xl font-bold bg-linear-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent">
-						{t('meta.title')}
-					</h1>
+					<div className="w-full max-w-md relative overflow-hidden">
+						<TextPath text={t('meta.title')} svgProps={{ viewBox: '0 0 650 100' }} />
+						<div className="absolute -bottom-5 left-1/2 -translate-x-1/2 w-2/3 h-6 blur-lg pointer-events-none opacity-20 bg-[conic-gradient(from_90deg_at_50%_50%,#00000000_50%,var(--color-primary)_50%),radial-gradient(rgba(200,200,200,0.1)_0%,transparent_80%)]" />
+					</div>
 
-					<div className="w-full max-w-md h-px bg-linear-to-r from-transparent via-border to-transparent" />
+					<div className="w-full max-w-md h-px bg-linear-to-r from-transparent via-border to-transparent -mt-6" />
 
 					<ul className="flex items-center justify-center gap-2">
 						<li>

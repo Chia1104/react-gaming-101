@@ -23,7 +23,7 @@ export const AppLoading = (props: Props) => {
 						<TextPath
 							text={props.title || t('meta.title')}
 							svgProps={{
-								viewBox: '0 0 320 100',
+								viewBox: '0 0 600 100',
 							}}
 						/>
 					</span>

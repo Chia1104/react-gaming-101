@@ -4,6 +4,7 @@ import { useState, useMemo, useId, memo } from 'react';
 import { ViewTransition } from 'react';
 
 import { CSS } from '@dnd-kit/utilities';
+import { Disclosure, Button as HeroButton } from '@heroui/react';
 import { X, GripVertical } from 'lucide-react';
 import { motion, useAnimation } from 'motion/react';
 import { useTranslations } from 'next-intl';
@@ -11,6 +12,7 @@ import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Game } from '@/enums/game.enum';
 import useDarkMode from '@/hooks/useDarkMode';
 import { Controller as DndController } from '@/libs/dnd/components/controlled-item';
 import { Provider as DndProvider } from '@/libs/dnd/components/provider';
@@ -128,6 +130,7 @@ function calculateWinningSegment(rotation: number, segments: WheelSegment[]): nu
 
 const OptionList = memo(
 	({ isSpinning }: { isSpinning: boolean }) => {
+		const [isOpen, setIsOpen] = useState(true);
 		const options = useTodoStore(state => state.items, 'OptionList');
 		const resetTodos = useTodoStore(state => state.resetTodos, 'OptionList');
 		const removeTodo = useTodoStore(state => state.removeTodo, 'OptionList');
@@ -135,53 +138,62 @@ const OptionList = memo(
 
 		return options.length > 0 ? (
 			<div className="space-y-2">
-				<Label>
-					{t('roulette.options')} ({options.length})
-				</Label>
-				<DndProvider
-					data={options}
-					onDragEnd={(_item, newData) => {
-						resetTodos(newData);
-					}}
-				>
-					<div className="flex flex-wrap gap-2">
-						{options.map(option => (
-							<DndController key={option.id} data={option}>
-								{sortable => (
-									<div
-										className="flex items-center gap-2 px-1 py-1.5 rounded-md bg-background border border-border"
-										ref={sortable.setNodeRef}
-										style={{
-											transform: CSS.Transform.toString(sortable.transform),
-											transition: sortable.transition,
-										}}
-									>
-										<Button
-											size="icon-sm"
-											variant="ghost"
-											className={cn('p-0.5 size-5', sortable.isDragging && 'cursor-grabbing')}
-											disabled={isSpinning}
-											{...sortable.attributes}
-											{...sortable.listeners}
-										>
-											<GripVertical className="size-3" />
-										</Button>
-										<span className="text-sm">{option.text}</span>
-										<Button
-											size="icon-sm"
-											variant="ghost"
-											onClick={() => removeTodo(option.id)}
-											disabled={isSpinning}
-											className="text-destructive hover:text-destructive/80 text-xs font-bold cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed p-0.5 size-5"
-										>
-											<X className="size-4" />
-										</Button>
-									</div>
-								)}
-							</DndController>
-						))}
-					</div>
-				</DndProvider>
+				<Disclosure.Root isExpanded={isOpen} onExpandedChange={setIsOpen}>
+					<Disclosure.Heading className="w-full">
+						<HeroButton variant="ghost" size="sm" className="w-full justify-between rounded-md" slot="trigger">
+							{t('roulette.options')} ({options.length})
+							<Disclosure.Indicator />
+						</HeroButton>
+					</Disclosure.Heading>
+					<Disclosure.Content>
+						<Disclosure.Body>
+							<DndProvider
+								data={options}
+								onDragEnd={(_item, newData) => {
+									resetTodos(newData);
+								}}
+							>
+								<div className="flex flex-wrap gap-2">
+									{options.map(option => (
+										<DndController key={option.id} data={option}>
+											{sortable => (
+												<div
+													className="flex items-center gap-2 px-1 py-1.5 rounded-md bg-background border border-border"
+													ref={sortable.setNodeRef}
+													style={{
+														transform: CSS.Transform.toString(sortable.transform),
+														transition: sortable.transition,
+													}}
+												>
+													<Button
+														size="icon-sm"
+														variant="ghost"
+														className={cn('p-0.5 size-5 cursor-grab', sortable.isDragging && 'cursor-grabbing')}
+														disabled={isSpinning}
+														{...sortable.attributes}
+														{...sortable.listeners}
+													>
+														<GripVertical className="size-3" />
+													</Button>
+													<span className="text-sm">{option.text}</span>
+													<Button
+														size="icon-sm"
+														variant="ghost"
+														onClick={() => removeTodo(option.id)}
+														disabled={isSpinning}
+														className="text-destructive hover:text-destructive/80 text-xs font-bold cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed p-0.5 size-5"
+													>
+														<X className="size-4" />
+													</Button>
+												</div>
+											)}
+										</DndController>
+									))}
+								</div>
+							</DndProvider>
+						</Disclosure.Body>
+					</Disclosure.Content>
+				</Disclosure.Root>
 			</div>
 		) : null;
 	},
@@ -243,7 +255,7 @@ export const Roulette = () => {
 			rotate: totalRotation,
 			transition: {
 				duration: 5, // 固定 5 秒
-				ease: [0.19, 1, 0.22, 1], // easeOutExpo 緩動函數，從快速開始，平滑減速結束
+				ease: [0.35, 0, 0.65, 1], // easeInOut 緩動函數，中間速度更快
 			},
 		});
 
@@ -266,7 +278,14 @@ export const Roulette = () => {
 	return (
 		<ViewTransition>
 			<div className="rounded-2xl shadow-2xl p-8 max-w-4xl w-full bg-foreground/5 backdrop-blur-xl flex flex-col items-center justify-center gap-8">
-				<h2 className="text-4xl font-bold text-center">{t('routes.roulette.title')}</h2>
+				<h2
+					className="text-4xl font-bold text-center"
+					style={{
+						viewTransitionName: `game-${Game.Roulette}`,
+					}}
+				>
+					{t('routes.roulette.title')}
+				</h2>
 
 				{/* 輸入選項區域 */}
 				<div className="w-full max-w-md space-y-4">

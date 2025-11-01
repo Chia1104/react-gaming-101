@@ -30,7 +30,13 @@ const Page = () => {
 						<Accordion.Item key={item.key}>
 							<Accordion.Heading>
 								<Accordion.Trigger>
-									{item.title}
+									<h3
+										style={{
+											viewTransitionName: `game-${item.key}`,
+										}}
+									>
+										{item.title}
+									</h3>
 									<Accordion.Indicator className="text-muted-foreground size-4 shrink-0">
 										<ChevronDown />
 									</Accordion.Indicator>

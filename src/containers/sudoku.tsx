@@ -4,13 +4,22 @@ import { ViewTransition } from 'react';
 
 import { useTranslations } from 'next-intl';
 
+import { Game } from '@/enums/game.enum';
+
 export const Sudoku = () => {
 	const t = useTranslations();
 
 	return (
 		<ViewTransition>
 			<div className="rounded-2xl shadow-2xl p-8 max-w-4xl w-full bg-foreground/5 backdrop-blur-xl flex flex-col items-center justify-center gap-8">
-				<h2 className="text-4xl font-bold text-center">{t('routes.sudoku.title')}</h2>
+				<h2
+					className="text-4xl font-bold text-center"
+					style={{
+						viewTransitionName: `game-${Game.Sudoku}`,
+					}}
+				>
+					{t('routes.sudoku.title')}
+				</h2>
 
 				<div className="flex flex-col items-center justify-center gap-4 p-12 text-center text-muted-foreground">
 					<p className="text-lg">{t('routes.sudoku.description')}</p>
@@ -20,4 +29,3 @@ export const Sudoku = () => {
 		</ViewTransition>
 	);
 };
-
