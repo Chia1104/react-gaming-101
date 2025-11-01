@@ -32,7 +32,7 @@ export const NavBar = ({ className }: { className?: string }) => {
 	return (
 		<nav
 			className={cn(
-				'flex items-center justify-between bg-foreground/5 backdrop-blur-2xl py-3 px-5 rounded-full shadow-xl',
+				'flex items-center justify-between bg-foreground/5 backdrop-blur-lg py-3 px-5 rounded-full shadow-xl',
 				className,
 			)}
 		>

@@ -7,6 +7,7 @@ import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Game } from '@/enums/game.enum';
 
 type Player = 'X' | 'O' | null;
 type Board = Player[];
@@ -119,7 +120,14 @@ export const TicTacToe = () => {
 	return (
 		<ViewTransition>
 			<div className="rounded-2xl shadow-2xl p-8 max-w-2xl w-full bg-foreground/5 backdrop-blur-xl flex flex-col items-center justify-center">
-				<h2 className="text-4xl font-bold text-center mb-8">{t('routes.tic-tac-toe.title')}</h2>
+				<h2
+					className="text-4xl font-bold text-center mb-8"
+					style={{
+						viewTransitionName: `game-${Game.TicTacToe}`,
+					}}
+				>
+					{t('routes.tic-tac-toe.title')}
+				</h2>
 
 				<div className="grid w-full max-w-sm items-center gap-3 mb-6">
 					<Label htmlFor={id}>{t('tic-tac-toe.set-size')}</Label>
