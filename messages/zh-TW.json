@@ -116,5 +116,16 @@
 		"current-player": "當前玩家：{player}",
 		"reset": "重新開始",
 		"size-description": "請輸入 3 到 10 之間的數字"
+	},
+	"roulette": {
+		"add-option": "新增選項",
+		"option-placeholder": "輸入選項名稱",
+		"add": "新增",
+		"options": "選項",
+		"spin": "轉動",
+		"spinning": "轉動中...",
+		"result": "結果",
+		"min-options": "請至少新增 2 個選項才能開始轉動",
+		"add-more-options": "在上方輸入框中新增更多選項"
 	}
 }
