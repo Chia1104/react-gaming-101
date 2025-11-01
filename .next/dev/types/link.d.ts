@@ -38,7 +38,10 @@ declare namespace __next_route_internal_types__ {
   type DynamicRoutes<T extends string = string> = 
     | `/${SafeSlug<T>}`
     | `/${SafeSlug<T>}/${CatchAllSlug<T>}`
+    | `/${SafeSlug<T>}/2048`
     | `/${SafeSlug<T>}/roulette`
+    | `/${SafeSlug<T>}/snake`
+    | `/${SafeSlug<T>}/sudoku`
     | `/${SafeSlug<T>}/tic-tac-toe`
 
   type RouteImpl<T> = 
