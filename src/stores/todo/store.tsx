@@ -24,8 +24,9 @@ export interface TodoStoreProviderProps {
 const createTodoStore =
 	(initialValues?: Partial<InitialState>): TodoStoreApi =>
 	(...params) => ({
-		...initialValues,
 		...initialState,
+		...initialValues,
+
 		...createTodoActions(...params),
 	});
 
