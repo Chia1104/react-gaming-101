@@ -8,6 +8,7 @@ export async function generateMetadata(): Promise<Metadata> {
 	const t = await getTranslations('routes.roulette');
 	return {
 		title: t('title'),
+		description: t('description'),
 	};
 }
 

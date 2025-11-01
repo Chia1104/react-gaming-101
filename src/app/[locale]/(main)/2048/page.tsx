@@ -7,6 +7,7 @@ export async function generateMetadata(): Promise<Metadata> {
 	const t = await getTranslations('routes.2048');
 	return {
 		title: t('title'),
+		description: t('description'),
 	};
 }
 
@@ -19,4 +20,3 @@ const Page = () => {
 };
 
 export default Page;
-

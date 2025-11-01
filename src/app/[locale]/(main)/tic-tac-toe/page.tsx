@@ -7,6 +7,7 @@ export async function generateMetadata(): Promise<Metadata> {
 	const t = await getTranslations('routes.tic-tac-toe');
 	return {
 		title: t('title'),
+		description: t('description'),
 	};
 }
 
