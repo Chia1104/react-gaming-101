@@ -11,11 +11,10 @@ import {
 	KeyboardSensor,
 	TouchSensor,
 	MouseSensor,
-	closestCenter,
+	closestCorners,
 } from '@dnd-kit/core';
 import type { DragEndEvent, DragOverEvent, DragStartEvent } from '@dnd-kit/core';
-import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
-import { SortableContext, arrayMove } from '@dnd-kit/sortable';
+import { SortableContext, arrayMove, rectSortingStrategy } from '@dnd-kit/sortable';
 import { createPortal } from 'react-dom';
 
 import { coordinateGetter, hasDraggableData } from '../utils';
@@ -121,10 +120,11 @@ export const Provider = <TData extends { id: UniqueIdentifier }>({
 			onDragStart={handleDragStart}
 			onDragEnd={handleDragEnd}
 			onDragOver={handleDragOver}
-			collisionDetection={closestCenter}
-			modifiers={[restrictToVerticalAxis]}
+			collisionDetection={closestCorners}
 		>
-			<SortableContext items={data}>{typeof children === 'function' ? children(data) : children}</SortableContext>
+			<SortableContext items={data} strategy={rectSortingStrategy}>
+				{typeof children === 'function' ? children(data) : children}
+			</SortableContext>
 			{typeof window !== 'undefined' &&
 				'document' in window &&
 				overlay &&
