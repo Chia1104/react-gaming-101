@@ -119,6 +119,17 @@ declare const messages: {
 		"current-player": "Current player: {player}",
 		"reset": "Reset",
 		"size-description": "Please enter a number between 3 and 10"
+	},
+	"roulette": {
+		"add-option": "Add Option",
+		"option-placeholder": "Enter option name",
+		"add": "Add",
+		"options": "Options",
+		"spin": "Spin",
+		"spinning": "Spinning...",
+		"result": "Result",
+		"min-options": "Please add at least 2 options to start spinning",
+		"add-more-options": "Add more options in the input field above"
 	}
 };
 export default messages;
