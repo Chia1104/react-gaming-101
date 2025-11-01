@@ -41,7 +41,9 @@ export const NavBar = ({ className }: { className?: string }) => {
 				{game && <Link href={`/${game}`}>/ {t(`routes.${game}.title`)}</Link>}
 			</div>
 			<ul>
-				<AnimatedThemeToggler className="rounded-full" />
+				<li>
+					<AnimatedThemeToggler className="rounded-full" />
+				</li>
 			</ul>
 		</nav>
 	);

@@ -109,6 +109,18 @@ declare const messages: {
 		"roulette": {
 			"title": "Roulette",
 			"description": "Roulette is a simple game where players spin a wheel and the pointer lands on a reward."
+		},
+		"2048": {
+			"title": "2048",
+			"description": "2048 is a number puzzle game where players merge tiles with the same numbers to reach the goal of 2048!"
+		},
+		"sudoku": {
+			"title": "Sudoku",
+			"description": "Sudoku is a logic-based number placement puzzle. Players fill a 9x9 grid with digits 1-9 so that each row, column, and 3x3 subgrid contains all digits 1-9 without repetition."
+		},
+		"snake": {
+			"title": "Snake",
+			"description": "Snake is a classic arcade game where players control a snake to move and eat food. The snake grows longer with each food eaten, but avoid hitting walls or your own body!"
 		}
 	},
 	"tic-tac-toe": {
