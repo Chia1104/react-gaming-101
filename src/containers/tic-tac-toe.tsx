@@ -1,119 +1,35 @@
 'use client';
 
-import { useState, useMemo, useId, ViewTransition } from 'react';
+import { useId, ViewTransition, useRef } from 'react';
 
 import { useTranslations } from 'next-intl';
+import * as z from 'zod';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Game } from '@/enums/game.enum';
+import { useTicTacToeStore } from '@/features/tic-tac-toe/store';
 
-type Player = 'X' | 'O' | null;
-type Board = Player[];
-
-function generateWinPatterns(size: number): number[][] {
-	const patterns: number[][] = [];
-
-	// 生成行的勝利模式
-	for (let row = 0; row < size; row++) {
-		const pattern: number[] = [];
-		for (let col = 0; col < size; col++) {
-			pattern.push(row * size + col);
-		}
-		patterns.push(pattern);
-	}
-
-	// 生成列的勝利模式
-	for (let col = 0; col < size; col++) {
-		const pattern: number[] = [];
-		for (let row = 0; row < size; row++) {
-			pattern.push(row * size + col);
-		}
-		patterns.push(pattern);
-	}
-
-	// 生成主對角線的勝利模式
-	const mainDiagonal: number[] = [];
-	for (let i = 0; i < size; i++) {
-		mainDiagonal.push(i * size + i);
-	}
-	patterns.push(mainDiagonal);
-
-	// 生成副對角線的勝利模式
-	const antiDiagonal: number[] = [];
-	for (let i = 0; i < size; i++) {
-		antiDiagonal.push(i * size + (size - 1 - i));
-	}
-	patterns.push(antiDiagonal);
-
-	return patterns;
-}
-
-function getWinner(board: Board, size: number) {
-	const winPatterns = generateWinPatterns(size);
-
-	for (const pattern of winPatterns) {
-		const firstCell = board[pattern[0]];
-		if (firstCell && pattern.every(index => board[index] === firstCell)) {
-			return firstCell; // 回傳 'X' 或 'O'
-		}
-	}
-	return null;
-}
-
-function useTicTacToe() {
-	const [size, setSize] = useState(3);
-	const [board, setBoard] = useState<Board>(Array(size * size).fill(null));
-	const [player, setPlayer] = useState<Player>('X');
-
-	// 🧩 即時計算勝負狀態（用 useMemo 避免不必要計算）
-	const winner = useMemo(() => getWinner(board, size), [board, size]);
-
-	// ✅ 判斷普通平手
-	const isFull = useMemo(() => board.every(Boolean), [board]);
-	const isDraw = useMemo(() => !winner && isFull, [winner, isFull]);
-
-	function makeMove(index: number) {
-		if (board[index] || winner || isDraw) return; // 已結束或佔用
-
-		const next = [...board];
-		next[index] = player;
-		setBoard(next);
-		setPlayer(player === 'X' ? 'O' : 'X');
-	}
-
-	function resetGame() {
-		setBoard(Array(size * size).fill(null));
-		setPlayer('X');
-	}
-
-	function changeSize(newSize: number) {
-		setSize(newSize);
-		setBoard(Array(newSize * newSize).fill(null));
-		setPlayer('X');
-	}
-
-	return {
-		size,
-		board,
-		player,
-		winner,
-		isDraw,
-		makeMove,
-		resetGame,
-		changeSize,
-	};
-}
+const sizeSchema = z.number().int().min(3).max(10);
 
 export const TicTacToe = () => {
-	const { size, board, player, winner, isDraw, makeMove, resetGame, changeSize } = useTicTacToe();
+	const changeSize = useTicTacToeStore(state => state.changeSize, 'TicTacToe');
+	const size = useTicTacToeStore(state => state.size, 'TicTacToe');
+	const board = useTicTacToeStore(state => state.board, 'TicTacToe');
+	const player = useTicTacToeStore(state => state.currentPlayer, 'TicTacToe');
+	const winner = useTicTacToeStore(state => state.winner, 'TicTacToe');
+	const isDraw = useTicTacToeStore(state => state.isDraw, 'TicTacToe');
+	const makeMove = useTicTacToeStore(state => state.makeMove, 'TicTacToe');
+	const resetGame = useTicTacToeStore(state => state.resetGame, 'TicTacToe');
+
 	const t = useTranslations();
 	const id = useId();
-	const [newSize, setNewSize] = useState(size);
+	const inputRef = useRef<HTMLInputElement>(null);
 
 	const handleConfirmSize = () => {
-		if (newSize < 3 || newSize > 10) return;
+		const newSize = Number(inputRef.current?.value);
+		if (!sizeSchema.safeParse(newSize).success) return;
 		changeSize(newSize);
 	};
 
@@ -138,8 +54,8 @@ export const TicTacToe = () => {
 							placeholder={t('tic-tac-toe.set-size')}
 							min={3}
 							max={10}
-							value={newSize}
-							onChange={e => setNewSize(Number(e.target.value))}
+							ref={inputRef}
+							defaultValue={size}
 						/>
 						<Button onClick={handleConfirmSize}>{t('tic-tac-toe.set-size')}</Button>
 					</div>
