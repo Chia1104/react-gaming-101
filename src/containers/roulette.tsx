@@ -1,15 +1,20 @@
 'use client';
 
-import { useState, useMemo, useId } from 'react';
+import { useState, useMemo, useId, memo } from 'react';
 import { ViewTransition } from 'react';
 
-import { X } from 'lucide-react';
+import { CSS } from '@dnd-kit/utilities';
+import { X, GripVertical } from 'lucide-react';
 import { motion, useAnimation } from 'motion/react';
 import { useTranslations } from 'next-intl';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import useDarkMode from '@/hooks/useDarkMode';
+import { Controller as DndController } from '@/libs/dnd/components/controlled-item';
+import { Provider as DndProvider } from '@/libs/dnd/components/provider';
+import { cn } from '@/libs/utils/cn';
 import { useTodoStore } from '@/stores/todo/store';
 
 const WHEEL_SIZE = 400;
@@ -121,13 +126,76 @@ function calculateWinningSegment(rotation: number, segments: WheelSegment[]): nu
 	return winningIndex;
 }
 
+const OptionList = memo(
+	({ isSpinning }: { isSpinning: boolean }) => {
+		const options = useTodoStore(state => state.items, 'OptionList');
+		const resetTodos = useTodoStore(state => state.resetTodos, 'OptionList');
+		const removeTodo = useTodoStore(state => state.removeTodo, 'OptionList');
+		const t = useTranslations();
+
+		return options.length > 0 ? (
+			<div className="space-y-2">
+				<Label>
+					{t('roulette.options')} ({options.length})
+				</Label>
+				<DndProvider
+					data={options}
+					onDragEnd={(_item, newData) => {
+						resetTodos(newData);
+					}}
+				>
+					<div className="flex flex-wrap gap-2">
+						{options.map(option => (
+							<DndController key={option.id} data={option}>
+								{sortable => (
+									<div
+										className="flex items-center gap-2 px-1 py-1.5 rounded-md bg-background border border-border"
+										ref={sortable.setNodeRef}
+										style={{
+											transform: CSS.Transform.toString(sortable.transform),
+											transition: sortable.transition,
+										}}
+									>
+										<Button
+											size="icon-sm"
+											variant="ghost"
+											className={cn('p-0.5 size-5', sortable.isDragging && 'cursor-grabbing')}
+											disabled={isSpinning}
+											{...sortable.attributes}
+											{...sortable.listeners}
+										>
+											<GripVertical className="size-3" />
+										</Button>
+										<span className="text-sm">{option.text}</span>
+										<Button
+											size="icon-sm"
+											variant="ghost"
+											onClick={() => removeTodo(option.id)}
+											disabled={isSpinning}
+											className="text-destructive hover:text-destructive/80 text-xs font-bold cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed p-0.5 size-5"
+										>
+											<X className="size-4" />
+										</Button>
+									</div>
+								)}
+							</DndController>
+						))}
+					</div>
+				</DndProvider>
+			</div>
+		) : null;
+	},
+	(prev, next) => prev.isSpinning === next.isSpinning,
+);
+
 export const Roulette = () => {
 	const t = useTranslations();
 	const id = useId();
 	const options = useTodoStore(state => state.items, 'Roulette');
 	const addTodo = useTodoStore(state => state.addTodo, 'Roulette');
 	const clearTodos = useTodoStore(state => state.clearTodos, 'Roulette');
-	const removeTodo = useTodoStore(state => state.removeTodo, 'Roulette');
+	const { isDarkMode } = useDarkMode();
+
 	const [inputValue, setInputValue] = useState('');
 	const [isSpinning, setIsSpinning] = useState(false);
 	const [winner, setWinner] = useState<string | null>(null);
@@ -224,32 +292,7 @@ export const Roulette = () => {
 					</div>
 
 					{/* 選項列表 */}
-					{options.length > 0 && (
-						<div className="space-y-2">
-							<Label>
-								{t('roulette.options')} ({options.length})
-							</Label>
-							<div className="flex flex-wrap gap-2">
-								{options.map(option => (
-									<div
-										key={option.id}
-										className="flex items-center gap-2 px-2 pr-1 py-1.5 rounded-md bg-background border border-border"
-									>
-										<span className="text-sm">{option.text}</span>
-										<Button
-											size="icon-sm"
-											variant="ghost"
-											onClick={() => removeTodo(option.id)}
-											disabled={isSpinning}
-											className="text-destructive hover:text-destructive/80 text-xs font-bold cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed p-0.5 size-5"
-										>
-											<X className="size-4" />
-										</Button>
-									</div>
-								))}
-							</div>
-						</div>
-					)}
+					<OptionList isSpinning={isSpinning} />
 				</div>
 
 				{/* 轉盤區域 */}
@@ -281,7 +324,13 @@ export const Roulette = () => {
 									<title>Roulette Wheel</title>
 									<g>
 										{segments.map((segment, index) => (
-											<path key={index} d={svgPath[index]} fill={segment.color} stroke="#fff" strokeWidth="2" />
+											<path
+												key={index}
+												d={svgPath[index]}
+												fill={segment.color}
+												stroke={isDarkMode ? '#212121' : '#fff'}
+												strokeWidth="2"
+											/>
 										))}
 									</g>
 									{textElements.map((text, index) => (
@@ -293,7 +342,7 @@ export const Roulette = () => {
 											dominantBaseline="middle"
 											fontSize="14"
 											fontWeight="600"
-											fill="#fff"
+											fill={isDarkMode ? '#212121' : '#fff'}
 											transform={`rotate(${text.rotation}, ${text.x}, ${text.y})`}
 											style={{ pointerEvents: 'none' }}
 										>
@@ -315,7 +364,7 @@ export const Roulette = () => {
 
 							{/* 顯示結果 */}
 							{winner && (
-								<div className="text-center p-4 rounded-lg bg-primary/10 border border-primary/20">
+								<div className="text-center p-4 rounded-lg bg-primary/10 border border-primary/20 min-w-64">
 									<p className="text-lg font-semibold text-muted-foreground mb-1">{t('roulette.result')}</p>
 									<p className="text-2xl font-bold text-primary">{winner}</p>
 								</div>
