@@ -25,7 +25,7 @@ const Page = () => {
 	return (
 		<ViewTransition>
 			<div className="flex flex-col items-center justify-center gap-4 w-full">
-				<Accordion.Root className="w-full max-w-md" variant="outline">
+				<Accordion.Root className="w-full max-w-md bg-accent-soft-hover rounded-lg shadow-lg" variant="surface">
 					{items.map(item => (
 						<Accordion.Item key={item.key}>
 							<Accordion.Heading>

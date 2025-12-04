@@ -2,7 +2,6 @@ import reactPlugin from 'eslint-plugin-react';
 import hooksPlugin from 'eslint-plugin-react-hooks';
 import { defineConfig } from 'eslint/config';
 
-// @ts-expect-error - react plugin is not typed
 const reactConfig = defineConfig(hooksPlugin.configs.flat['recommended-latest'], {
 	files: ['**/*.ts', '**/*.tsx'],
 	...reactPlugin.configs.flat.recommended,
