@@ -39,7 +39,6 @@ export const baseConfig = defineConfig(
 	{
 		files: ['**/*.js', '**/*.ts', '**/*.tsx'],
 		plugins: {
-			// @ts-expect-error - import plugin is not typed
 			import: importPlugin,
 		},
 		extends: [
